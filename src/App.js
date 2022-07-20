@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React from 'react';
+import SismosInfo from './components/SismosInfo';
+import useFetch from './utils/useFetch';
 import './App.css';
 
 function App() {
+  const { data, loading } = useFetch(
+    'https://api.gael.cloud/general/public/sismos'
+  );
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Sismos recientes</h1>
+      {loading ? (
+        <p>Cargando...</p>
+      ) : (
+        <div>
+          <SismosInfo data={data} />
+        </div>
+      )}
     </div>
   );
 }
