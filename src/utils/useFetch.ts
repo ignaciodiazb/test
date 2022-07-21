@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Sismo } from './types';
 
-const useFetch = (url) => {
+type FetchData = {
+  data: Sismo[] | null;
+  loading: boolean;
+};
+
+const useFetch = (url: string): FetchData => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
 

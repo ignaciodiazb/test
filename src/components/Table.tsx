@@ -1,7 +1,8 @@
 import React from 'react';
 import { formatDate } from '../utils/formatDate';
+import { SismosInformation, Sismo } from '../utils/types';
 
-const Table = ({ data }) => {
+const Table = ({ data }: SismosInformation) => {
   return (
     <table className="table">
       <thead>
@@ -13,7 +14,7 @@ const Table = ({ data }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map((item) => (
+        {data && data.map((item: Sismo) => (
           <tr key={item.Fecha}>
             <td>{formatDate(item.Fecha)}</td>
             <td>{item.Profundidad}</td>

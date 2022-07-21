@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import Table from './Table';
 import BarChart from './BarChart';
 import PaginationButton from './PaginationButton';
+import { SismosInformation } from '../utils/types';
 
-const SismosInfo = ({ data }) => {
-  const [page, setPage] = useState(1);
+const SismosInfo = (props: SismosInformation) => {
+  const [page, setPage] = useState<number>(1);
   const resultsPerPage = 10;
   const indexOfLastItem = page * resultsPerPage;
   const indexOfFirstItem = indexOfLastItem - resultsPerPage;
-  const sismosData = data.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(data.length / resultsPerPage);
+  const sismosData = props.data?.slice(indexOfFirstItem, indexOfLastItem) || [];
+  const totalPages =
+    props.data && Math.ceil(props.data.length / resultsPerPage);
   return (
     <div>
       <p>
-        Resultados totales: <b>{data.length}</b>
+        Resultados totales: <b>{props.data && props.data.length}</b>
       </p>
       <p>
         Página {page} de {totalPages}
@@ -22,15 +24,15 @@ const SismosInfo = ({ data }) => {
       <BarChart data={sismosData} />
       <div className="buttons">
         <PaginationButton
-          onClick={() => setPage((prevState) => prevState - 1)}
+          handleClick={() => setPage((prevState) => prevState - 1)}
           isDisabled={page === 1}
         >
           Anterior
         </PaginationButton>
         <PaginationButton
-          onClick={() => setPage((prevState) => prevState + 1)}
+          handleClick={() => setPage((prevState) => prevState + 1)}
           // prettier-ignore
-          isDisabled={(page * resultsPerPage) >= data.length}
+          isDisabled={page === totalPages}
         >
           Siguiente
         </PaginationButton>

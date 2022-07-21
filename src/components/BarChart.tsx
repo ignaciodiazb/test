@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatDate } from '../utils/formatDate';
+import { SismosInformation } from '../utils/types';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
 ChartJS.register(
@@ -20,18 +22,20 @@ ChartJS.register(
   Legend
 );
 
-const BarChart = ({ data }) => {
-  const chartData = {
-    labels: data.map((item) => formatDate(item.Fecha)),
+const BarChart = (props: SismosInformation) => {
+  const labels = props.data?.map((item) => formatDate(item.Fecha));
+  const data = props.data?.map((item) => parseInt(item.Profundidad)) || [];
+  const appData: ChartData<'bar'> = {
+    labels,
     datasets: [
       {
         label: 'Profundidad',
-        data: data.map((item) => item.Profundidad),
+        data,
         backgroundColor: '#ff5733',
       },
     ],
   };
-  const chartOptions = {
+  const chartOptions: ChartOptions<'bar'> = {
     responsive: true,
     plugins: {
       legend: {
@@ -43,7 +47,7 @@ const BarChart = ({ data }) => {
       },
     },
   };
-  return <Bar data={chartData} options={chartOptions} />;
+  return <Bar data={appData} options={chartOptions} />;
 };
 
 export default BarChart;
